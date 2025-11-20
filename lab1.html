@@ -10,10 +10,10 @@
             max-width: 600px;
             margin: 50px auto;
             padding: 20px;
-            background-color: #f5f5f5;
+            background-color: #111252;
         }
         .container {
-            background: white;
+            background: #ffffff;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -35,7 +35,7 @@
             border-radius: 4px;
         }
         button {
-            background-color: #4CAF50;
+            background-color: #2b2c87;
             color: white;
             padding: 10px 20px;
             border: none;
@@ -45,14 +45,13 @@
             margin: 10px 0;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #111252;
         }
         .result {
             margin-top: 20px;
             padding: 15px;
-            background-color: #e8f5e8;
+            background-color: #e1e2ff;
             border-radius: 5px;
-            border-left: 4px solid #4CAF50;
         }
         .error {
             color: red;
@@ -65,7 +64,7 @@
         <h1>Решение биквадратного уравнения</h1>
 
         <div class="equation">
-            Уравнение вида: <strong>Ax⁴ + Bx² + C = 0</strong>
+            Уравнение вида: <strong>Ax^4 + Bx^2 + C = 0</strong>
         </div>
 
         <div>
@@ -90,27 +89,22 @@
         <button onclick="clearInputs()">Очистить</button>
 
         <div id="result" class="result" style="display: none;">
-            <!-- Здесь будут отображаться результаты -->
         </div>
     </div>
 
     <script>
         function getNumber(inputId, errorId) {
-            // Получаем элемент ввода и элемента для ошибки
             const inputElement = document.getElementById(inputId);
             const errorElement = document.getElementById(errorId);
             const value = inputElement.value.trim();
 
-            // Очищаем предыдущие ошибки
             errorElement.textContent = '';
 
-            // Проверяем, пустое ли значение
             if (value === '') {
                 errorElement.textContent = 'Пожалуйста, введите число';
                 return null;
             }
 
-            // Пытаемся преобразовать в число
             const number = parseFloat(value);
             if (isNaN(number)) {
                 errorElement.textContent = 'Это не число! Пожалуйста, введите число';
@@ -121,91 +115,74 @@
         }
 
         function solveEquation() {
-            // Получаем коэффициенты
             const a = getNumber('coefA', 'errorA');
             const b = getNumber('coefB', 'errorB');
             const c = getNumber('coefC', 'errorC');
 
-            // Если какой-то коэффициент не валиден, останавливаем выполнение
             if (a === null || b === null || c === null) {
                 return;
             }
 
-            // Проверяем, что A не равен 0
             if (a === 0) {
                 document.getElementById('errorA').textContent = 'Коэффициент A не может быть равен 0';
                 return;
             }
 
-            // Решаем уравнение
             calculateAndDisplay(a, b, c);
         }
 
         function calculateAndDisplay(a, b, c) {
             const resultElement = document.getElementById('result');
-
-            // Очищаем предыдущие результаты
             resultElement.innerHTML = '';
             resultElement.style.display = 'block';
 
-            // Выводим уравнение
-            resultElement.innerHTML += `<h3>Уравнение: ${a}x⁴ + ${b}x² + ${c} = 0</h3>`;
+            resultElement.innerHTML += `<h3>Уравнение: ${a}x^4 + ${b}x^2 + ${c} = 0</h3>`;
 
-            // Вычисляем дискриминант
             const discriminant = b * b - 4 * a * c;
             resultElement.innerHTML += `<p>Дискриминант D = ${discriminant}</p>`;
 
-            // Проверяем дискриминант
             if (discriminant < 0) {
                 resultElement.innerHTML += `<p>Дискриминант отрицательный. Действительных корней нет.</p>`;
                 return;
             }
 
-            // Вычисляем промежуточные значения (y = x²)
             const y1 = (-b + Math.sqrt(discriminant)) / (2 * a);
             const y2 = (-b - Math.sqrt(discriminant)) / (2 * a);
 
             resultElement.innerHTML += `<p>Промежуточные значения:</p>`;
-            resultElement.innerHTML += `<p>y₁ = ${y1.toFixed(4)} (где y = x²)</p>`;
-            resultElement.innerHTML += `<p>y₂ = ${y2.toFixed(4)} (где y = x²)</p>`;
+            resultElement.innerHTML += `<p>y1 = ${y1.toFixed(4)} (где y = x^2)</p>`;
+            resultElement.innerHTML += `<p>y2 = ${y2.toFixed(4)} (где y = x^2)</p>`;
 
-            // Находим действительные корни
             const roots = [];
 
-            // Проверяем y1
             if (y1 > 0) {
                 const root1 = Math.sqrt(y1);
                 const root2 = -Math.sqrt(y1);
                 roots.push(root1, root2);
-                resultElement.innerHTML += `<p>Из y₁ = ${y1.toFixed(4)} > 0 получаем корни: x₁ = ${root1.toFixed(4)}, x₂ = ${root2.toFixed(4)}</p>`;
+                resultElement.innerHTML += `<p>Из y1 = ${y1.toFixed(4)} > 0 получаем корни: x1 = ${root1.toFixed(4)}, x2 = ${root2.toFixed(4)}</p>`;
             } else if (y1 === 0) {
                 roots.push(0);
-                resultElement.innerHTML += `<p>Из y₁ = 0 получаем корень: x = 0</p>`;
+                resultElement.innerHTML += `<p>Из y1 = 0 получаем корень: x = 0</p>`;
             }
-
-            // Проверяем y2 (и убеждаемся, что это не тот же корень, что y1)
             if (y2 > 0 && y2 !== y1) {
                 const root3 = Math.sqrt(y2);
                 const root4 = -Math.sqrt(y2);
                 roots.push(root3, root4);
-                resultElement.innerHTML += `<p>Из y₂ = ${y2.toFixed(4)} > 0 получаем корни: x₃ = ${root3.toFixed(4)}, x₄ = ${root4.toFixed(4)}</p>`;
+                resultElement.innerHTML += `<p>Из y2 = ${y2.toFixed(4)} > 0 получаем корни: x3 = ${root3.toFixed(4)}, x4 = ${root4.toFixed(4)}</p>`;
             } else if (y2 === 0 && y1 !== 0) {
                 roots.push(0);
-                resultElement.innerHTML += `<p>Из y₂ = 0 получаем корень: x = 0</p>`;
+                resultElement.innerHTML += `<p>Из y2 = 0 получаем корень: x = 0</p>`;
             }
 
-            // Выводим итоговые результаты
             resultElement.innerHTML += `<hr><h3>Результаты:</h3>`;
 
             if (roots.length === 0) {
                 resultElement.innerHTML += `<p>Действительных корней нет.</p>`;
             } else {
-                // Сортируем корни для красивого вывода
                 roots.sort((x, y) => x - y);
                 resultElement.innerHTML += `<p>Найдено действительных корней: ${roots.length}</p>`;
 
                 roots.forEach((root, index) => {
-                    // Округляем для красивого вывода, если число близко к целому
                     const displayRoot = Math.abs(root - Math.round(root)) < 0.0001 ? Math.round(root) : root.toFixed(4);
                     resultElement.innerHTML += `<p>x${index + 1} = ${displayRoot}</p>`;
                 });
@@ -213,7 +190,6 @@
         }
 
         function clearInputs() {
-            // Очищаем все поля ввода и сообщения
             document.getElementById('coefA').value = '';
             document.getElementById('coefB').value = '';
             document.getElementById('coefC').value = '';
@@ -225,7 +201,6 @@
             document.getElementById('result').style.display = 'none';
         }
 
-        // Добавляем обработчики событий для очистки ошибок при вводе
         document.getElementById('coefA').addEventListener('input', function() {
             document.getElementById('errorA').textContent = '';
         });
