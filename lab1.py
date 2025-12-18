@@ -11,7 +11,7 @@ def get_number_input(prompt):
 def solve_biquadratic():
     print("")
     print("Решение биквадратного уравнения")
-    print("Уравнение имеет вид: Ax⁴ + Bx² + C = 0")
+    print("Уравнение имеет вид: Ax^4 + Bx^2 + C = 0")
 
     print("\nВведите коэффициенты уравнения:")
     while True:
